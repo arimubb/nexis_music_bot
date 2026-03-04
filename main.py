@@ -14,11 +14,10 @@ from dotenv import load_dotenv
 import os
 
 load_dotenv()
-# 1. НАСТРОЙКИ
 logging.basicConfig(level=logging.INFO)
 
 TOKEN = os.getenv("BOT_TOKEN")
-THUMB_PATH = "nx.jpeg"  # Твоя аватарка
+THUMB_PATH = "nx.jpeg"  
 DOWNLOAD_DIR = "downloalsds"
 
 if not os.path.exists(DOWNLOAD_DIR):
@@ -37,12 +36,10 @@ YDL_OPTIONS = {
     'outtmpl': f'{DOWNLOAD_DIR}/%(id)s.temp.%(ext)s',
 }
 
-# 2. ФУНКЦИЯ ПОДГОТОВКИ ФАЙЛА (СУПЕР-КАЧЕСТВО)
 async def download_and_prepare(url):
     loop = asyncio.get_event_loop()
     
     def process():
-        # Подготовка обложки (600x600, без сжатия цвета)
         opt_thumb = f"{DOWNLOAD_DIR}/opt_thumb.jpg"
         if os.path.exists(THUMB_PATH):
             with Image.open(THUMB_PATH) as img:
@@ -56,18 +53,15 @@ async def download_and_prepare(url):
             final_file = temp_file.replace(".temp.m4a", ".m4a")
             title = info.get('title', 'Music')
             
-            # Переименовываем из временного в финальный
             if os.path.exists(final_file): os.remove(final_file)
             os.rename(temp_file, final_file)
             
-            # Вшиваем обложку через Mutagen (профессиональный метод)
             if os.path.exists(opt_thumb):
                 try:
                     audio = MP4(final_file)
                     with open(opt_thumb, "rb") as f:
                         audio["covr"] = [MP4Cover(f.read(), imageformat=MP4Cover.FORMAT_JPEG)]
                     
-                    # Прописываем теги, чтобы плеер ТГ видел всё четко
                     audio["\xa9nam"] = title
                     audio["\xa9ART"] = "Nexis Music"
                     audio.save()
@@ -78,7 +72,6 @@ async def download_and_prepare(url):
 
     return await loop.run_in_executor(None, process)
 
-# 3. ПАГИНАЦИЯ
 def get_pagination_keyboard(items, page: int, query_id: str):
     items_per_page = 5
     start_idx = page * items_per_page
@@ -105,7 +98,6 @@ def get_pagination_keyboard(items, page: int, query_id: str):
     builder.row(*nav_buttons)
     return builder.as_markup()
 
-# 4. ОБРАБОТЧИКИ
 @dp.message(Command("start"))
 async def cmd_start(message: types.Message):
     await message.answer("🚀 <b>Nexis Music</b>\nПришли название песни или имя исполнителя, я найду её в лучшем качестве!")
