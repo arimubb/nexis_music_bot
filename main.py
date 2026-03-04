@@ -152,7 +152,7 @@ async def handle_download(callback: types.CallbackQuery):
         await callback.message.answer_audio(
             audio=FSInputFile(path),
             title=title,
-            performer="Nexis Music",
+            performer="Nexis Music | by arimski",
             thumbnail=FSInputFile(opt_thumb) if opt_thumb else None,
         )
         
