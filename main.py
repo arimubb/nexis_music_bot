@@ -14,6 +14,8 @@ from dotenv import load_dotenv
 import os
 
 load_dotenv()
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+COOKIES_PATH = os.path.join(BASE_DIR, 'cookies.txt')
 logging.basicConfig(level=logging.INFO)
 
 TOKEN = os.getenv("BOT_TOKEN")
@@ -30,6 +32,7 @@ search_cache = {}
 YDL_OPTIONS = {
     'format': 'bestaudio[ext=m4a]/bestaudio/best',
     'noplaylist': True,
+    'cookiefile': COOKIES_PATH,    
     'quiet': True,
     'no_warnings': True,
     'nocheckcertificate': True,
