@@ -30,18 +30,11 @@ dp = Dispatcher()
 
 search_cache = {}
 YDL_OPTIONS = {
-    'format': 'bestaudio/best',  
+    'format': 'bestaudio/best',
     'noplaylist': True,
     'cookiefile': COOKIES_PATH, 
     'quiet': True,
-    'no_warnings': True,
-    'nocheckcertificate': True,
-    'outtmpl': f'{DOWNLOAD_DIR}/%(id)s.temp.%(ext)s',
-    'postprocessors': [{  
-        'key': 'FFmpegExtractAudio',
-        'preferredcodec': 'm4a',
-        'preferredquality': '192',
-    }],
+    'outtmpl': f'{DOWNLOAD_DIR}/%(id)s.%(ext)s', # Убрали .temp
 }
 async def download_and_prepare(url):
     loop = asyncio.get_event_loop()
