@@ -34,7 +34,9 @@ YDL_OPTIONS = {
     'noplaylist': True,
     'cookiefile': COOKIES_PATH, 
     'quiet': True,
-    'outtmpl': f'{DOWNLOAD_DIR}/%(id)s.%(ext)s', # Убрали .temp
+    'no_warnings': True, # Игнорировать предупреждения
+    'nocheckcertificate': True,
+    'extract_flat': False, # Важно для обхода некоторых защит
 }
 async def download_and_prepare(url):
     loop = asyncio.get_event_loop()
