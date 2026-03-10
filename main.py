@@ -11,16 +11,12 @@ from aiogram.types import FSInputFile
 from aiogram.client.default import DefaultBotProperties
 from dotenv import load_dotenv
 
-# ==============================
-# CONFIG
-# ==============================
 
 load_dotenv()
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 DOWNLOAD_DIR = os.path.join(BASE_DIR, "downloads")
 THUMB_PATH = os.path.join(BASE_DIR, "nx.jpeg")
-COOKIES_PATH = os.path.join(BASE_DIR, "cookies.txt")  # если нужен для авторизации
 
 TOKEN = os.getenv("BOT_TOKEN")
 
@@ -29,9 +25,6 @@ logging.basicConfig(level=logging.INFO)
 if not os.path.exists(DOWNLOAD_DIR):
     os.makedirs(DOWNLOAD_DIR)
 
-# ==============================
-# BOT INIT
-# ==============================
 
 bot = Bot(token=TOKEN, default=DefaultBotProperties(parse_mode="HTML"))
 dp = Dispatcher()
@@ -39,14 +32,10 @@ dp = Dispatcher()
 search_cache = {}
 music_cache = {}
 
-# ==============================
-# YTDLP SETTINGS
-# ==============================
 
 YDL_OPTIONS = {
     "format": "bestaudio[ext=m4a]/bestaudio/best",
     "noplaylist": True,
-    "cookiefile": COOKIES_PATH,
     "quiet": True,
     "no_warnings": True,
     "nocheckcertificate": True,
